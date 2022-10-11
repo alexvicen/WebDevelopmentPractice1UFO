@@ -42,3 +42,8 @@ body {
   vertical-align: -0.125em;
   fill: currentColor;
 }
+
+.image {
+  width: 300px;
+  height: 300px;
+}

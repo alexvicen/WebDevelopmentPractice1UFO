@@ -50,14 +50,18 @@
         </div>
       </nav>
     </header>
-    <div class="container-fluid">
-      <a id="playButton" onclick="playPauseGame()" class="btn neon_border">Play</a>
+    <div class="container-fluid row">
+      <div class="col">
+        <a id="playButton" onclick="playPauseGame()" class="playButton btn neon_border">
+          <div id="playText">Play</div>
+          <div id="points" class="points">0</div>
+        </a>
+      </div>
+      <div id="board" class="col">
+        <div class="rocks"></div>
+        <div id="jet"></div>
+      </div>
     </div>
-    <div id="board">
-      <div class="rocks"></div>
-      <div id="jet"></div>
-    </div>
-    <div class="points neon_text">0</div>
   </body>
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="../js/game.js" defer></script>

@@ -1,5 +1,6 @@
 var ship = document.getElementById("jet");
 var board = document.getElementById("board");
+var points = document.getElementById("points");
 var createEnemiesInterval;
 var moveEnemiesInterval;
 var isRuning = false;
@@ -37,30 +38,23 @@ window.addEventListener("keydown", (e) => {
         if (rock != undefined) {
           var rockbound = rock.getBoundingClientRect();
           var bulletbound = bullet.getBoundingClientRect();
-
-          //Condition to check whether the rock/alien and the bullet are at the same position..!
-          //If so,then we have to destroy that rock
-
           if (
             bulletbound.left >= rockbound.left &&
             bulletbound.right <= rockbound.right &&
             bulletbound.top <= rockbound.top &&
             bulletbound.bottom <= rockbound.bottom
           ) {
-            rock.parentElement.removeChild(rock); //Just removing that particular rock;
-            //Scoreboard
-            document.getElementById("points").innerHTML = parseInt(document.getElementById("points").innerHTML) + 1;
+            rock.parentElement.removeChild(rock);
+            points.innerHTML = parseInt(points.innerHTML) + 1;
           }
         }
       }
       var bulletbottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
-
-      //Stops the bullet from moving outside the gamebox
       if (bulletbottom >= 500) {
         clearInterval(movebullet);
       }
 
-      bullet.style.left = left + "px"; //bullet should always be placed at the top of my jet..!
+      bullet.style.left = left + SHIP_WIDTH / 3.2 + "px";
       bullet.style.bottom = bulletbottom + 3 + "px";
     });
   }
@@ -68,7 +62,14 @@ window.addEventListener("keydown", (e) => {
 
 function playPauseGame() {
   isRuning = !isRuning;
+  changePlayPauseText();
   if (createEnemiesInterval == undefined && moveEnemiesInterval == undefined) createBoard();
+}
+
+function changePlayPauseText() {
+  var text = document.getElementById("playText");
+  if (isRuning) text.innerHTML = "Pause";
+  else text.innerHTML = "Play";
 }
 
 function createBoard() {
@@ -76,11 +77,7 @@ function createBoard() {
     if (!isRuning) return;
     var rock = document.createElement("div");
     rock.classList.add("rocks");
-    //Just getting the left of the rock to place it in random position...
-    var rockleft = parseInt(window.getComputedStyle(rock).getPropertyValue("left"));
-    //generate value between 0 to (board width - rock width)
     rock.style.left = Math.floor(Math.random() * (BOARD_WIDTH - ENEMY_WIDTH)) + "px";
-
     board.appendChild(rock);
   }, 1000);
 
@@ -89,8 +86,7 @@ function createBoard() {
     var rocks = document.getElementsByClassName("rocks");
     if (rocks != undefined) {
       for (var i = 0; i < rocks.length; i++) {
-        //Now I have to increase the top of each rock,so that the rocks can move downwards..
-        var rock = rocks[i]; //getting each rock
+        var rock = rocks[i];
         var rocktop = parseInt(window.getComputedStyle(rock).getPropertyValue("top"));
         if (rocktop >= BOARD_HEIGHT - ENEMY_HEIGHT + 25) {
           alert("Game Over");
