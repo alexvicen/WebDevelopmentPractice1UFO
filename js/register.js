@@ -76,7 +76,7 @@ function loginUser() {
         break;
       case 200:
         localStorage["authorization"] = this.getResponseHeader("Authorization");
-        location.href = "index.html";
+        history.back();
         break;
       default:
         alert("Unknown error");

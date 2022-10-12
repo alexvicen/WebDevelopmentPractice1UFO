@@ -3,13 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
     <meta name="author" content="Alejandro Vicente Pérez" />
-    <title>U.F.O Login</title>
+    <title>U.F.O Home</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/neon.css" rel="stylesheet" />
-    <link href="../css/login.css" rel="stylesheet" />
+    <link href="../css/records.css" rel="stylesheet" />
     <link href="../css/header.css" rel="stylesheet" />
   </head>
   <body>
@@ -40,32 +39,25 @@
                 <a class="nav-link neon_text" href="game.html">Play</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link neon_text" href="records.html">Records</a>
+                <a class="nav-link neon_text" href="#">Records</a>
               </li>
             </ul>
             <div class="nav-item">
-              <a id="register" class="btn neon_border hidden" href="register.html">Register</a>
+              <a id="register" class="btn neon_border view_collapsed" href="register.html">Register</a>
+              <a id="login" class="btn neon_border view_collapsed" href="login.html">Login</a>
+              <a id="logOut" class="btn neon_filled view_collapsed" onclick="logOutUser()">Log out</a>
             </div>
           </div>
         </div>
       </nav>
     </header>
-    <main class="form-signin w-100 m-auto">
-      <form>
-        <h1 class="h3 mb-3 fw-normal neon_text">Please login</h1>
-        <div class="form-floating neon_text">
-          <input type="userName" class="form-control" id="userName" placeholder="UserName" />
-          <label class="form-label" for="floatingInput">User name</label>
-        </div>
-        <div class="form-floating neon_text">
-          <input type="password" class="form-control" id="password" placeholder="Password" />
-          <label class="form-label" for="floatingPassword">Password</label>
-        </div>
-        <button class="w-100 btn neon_filled" type="button" onclick="loginUser()">Sign in</button>
-      </form>
-    </main>
+    <div class="container text-center container_neon_border">
+      <div class="row justify-content-md-center" id="records_table"></div>
+    </div>
+
     <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/header.js" defer></script>
-    <script src="../js/login.js" defer></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/records.js"></script>
+    <script src="../js/jquery-3.6.1.min.js"></script>
   </body>
 </html>

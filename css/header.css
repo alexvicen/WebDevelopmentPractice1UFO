@@ -4,7 +4,9 @@
   height: 2.75rem;
   overflow-y: hidden;
 }
-
+.view_collapsed {
+  visibility: collapse;
+}
 .nav-scroller .nav {
   display: flex;
   flex-wrap: nowrap;

@@ -48,28 +48,11 @@ body {
   height: 300px;
 }
 
-.form-floating .form-control {
-  background-color: transparent;
-  color: var(--clr-neon);
-  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+.tr {
+  height: 50px;
+  font-size: 1.2rem;
 }
-
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-}
-.form-signin .form-floating:focus-within {
-  z-index: 2;
-}
-
-.form-signin input[type="userName"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.th {
+  height: 50px;
+  font-size: 1.4rem;
 }
