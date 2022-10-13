@@ -5,52 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Alejandro Vicente Pérez" />
     <title>U.F.O Home</title>
-
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/neon.css" rel="stylesheet" />
     <link href="../css/index.css" rel="stylesheet" />
     <link href="../css/header.css" rel="stylesheet" />
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-expand-md mb-4">
-        <div class="container-fluid">
-          <a class="navbar-brand neon_text" href="index.html">U.F.O</a>
-          <button
-            class="navbar-toggler ml-auto custom-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarCollapse"
-            aria-controls="navbarCollapse"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
-                <a class="nav-link neon_text" href="index.html">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link neon_text" href="#">Preferences</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link neon_text" href="game.html">Play</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link neon_text" href="records.html">Records</a>
-              </li>
-            </ul>
-            <div class="nav-item">
-              <a id="register" class="btn neon_border view_collapsed" href="register.html">Register</a>
-              <a id="login" class="btn neon_border view_collapsed" href="login.html">Login</a>
-              <a id="logOut" class="btn neon_filled view_collapsed" onclick="logOutUser()">Log out</a>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
+    <div id="headerP"></div>
     <div class="container text-center container_neon_border">
       <div class="row justify-content-md-center">
         <h1 class="col-5 mt-5">WEB DEVELOPMENT</h1>
@@ -65,7 +27,6 @@
         <img src="../assets/images/alien.png" class="rounded float-start image" />
       </div>
     </div>
-
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/header.js"></script>
   </body>
