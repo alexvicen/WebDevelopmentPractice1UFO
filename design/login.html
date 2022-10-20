@@ -6,6 +6,8 @@
     <meta name="author" content="Alejandro Vicente Pérez" />
     <title>U.F.O Login</title>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/neon.css" rel="stylesheet" />
     <link href="../css/login.css" rel="stylesheet" />
@@ -13,7 +15,8 @@
   </head>
   <body>
     <div id="headerP"></div>
-    <main class="form-signin w-100 m-auto">
+    <div id="dialog" title="Prueba"></div>
+    <main class="form-signin w-100 m-auto" id="registerForm">
       <form>
         <h1 class="h3 mb-3 fw-normal neon_text">Please login</h1>
         <div class="form-floating neon_text">

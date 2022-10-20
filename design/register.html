@@ -6,6 +6,8 @@
     <meta name="author" content="Alejandro Vicente Pérez" />
     <title>U.F.O Register</title>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/neon.css" rel="stylesheet" />
     <link href="../css/register.css" rel="stylesheet" />
@@ -13,26 +15,27 @@
   </head>
   <body>
     <div id="headerP"></div>
-    <main class="form-signin w-100 m-auto">
+    <div id="dialog" title="Prueba"></div>
+    <main class="form-signin w-100 m-auto" id="registerForm">
       <form>
         <h1 class="h3 mb-3 fw-normal neon_text">Please register</h1>
-        <div class="form-floating neon_text">
+        <div class="form-floating neon_text" id="userNameDiv">
           <input type="userName" class="form-control" id="userName" placeholder="UserName" />
           <label class="form-label" for="floatingInput">User name</label>
         </div>
-        <div class="form-floating neon_text">
+        <div class="form-floating neon_text" id="emailDiv">
           <input type="email" class="form-control" id="email" placeholder="Email" />
           <label class="form-label" for="floatingInput">Email</label>
         </div>
-        <div class="form-floating neon_text">
+        <div class="form-floating neon_text" id="passwordDiv">
           <input type="password" class="form-control" id="password" placeholder="Password" />
           <label class="form-label" for="floatingPassword">Password</label>
         </div>
-        <div class="form-floating neon_text">
+        <div class="form-floating neon_text" id="repeatPasswordDiv">
           <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat Password" />
           <label class="form-label" for="floatingPassword">Repeat Password</label>
         </div>
-        <button class="w-100 btn neon_filled" type="button" onclick="checkUserNameExist()">Sign in</button>
+        <button class="w-100 btn neon_filled" type="button" onclick="registerUser()">Sign in</button>
       </form>
     </main>
     <script src="../js/bootstrap.bundle.min.js"></script>

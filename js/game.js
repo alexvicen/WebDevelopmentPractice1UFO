@@ -5,8 +5,16 @@ var createEnemiesInterval;
 var moveEnemiesInterval;
 var isRuning = false;
 
-const BOARD_WIDTH = 700;
-const BOARD_HEIGHT = 500;
+var rect = board.getBoundingClientRect();
+
+const BOARD_LEFT = rect.left;
+const BOARD_RIGHT = rect.right;
+const BOARD_TOP = rect.top;
+const BOARD_BOTTOM = rect.bottom;
+
+const BOARD_WIDTH = BOARD_RIGHT - BOARD_LEFT;
+const BOARD_HEIGHT = BOARD_BOTTOM - BOARD_TOP;
+
 const SHIP_WIDTH = 60;
 const SHIP_HEIGHT = 80;
 const ENEMY_WIDTH = 65;
@@ -21,44 +29,50 @@ window.addEventListener("keydown", (e) => {
   var left = parseInt(window.getComputedStyle(ship).getPropertyValue("left"));
   if (e.key == "ArrowLeft" && left > 0) {
     ship.style.left = left - SHIP_MOVEMENT + "px";
-  } else if (e.key == "ArrowRight" && left <= BOARD_WIDTH - SHIP_WIDTH) {
+  } else if (e.key == "ArrowRight" && left <= BOARD_WIDTH - SHIP_WIDTH * 1.5) {
     ship.style.left = left + SHIP_MOVEMENT + "px";
   }
 
   if (e.key == "ArrowUp" || e.key == " ") {
-    var bullet = document.createElement("div");
-    bullet.classList.add("bullets");
-    board.appendChild(bullet);
-
-    var movebullet = setInterval(() => {
-      var rocks = document.getElementsByClassName("rocks");
-
-      for (var i = 0; i < rocks.length; i++) {
-        var rock = rocks[i];
-        if (rock != undefined) {
-          var rockbound = rock.getBoundingClientRect();
-          var bulletbound = bullet.getBoundingClientRect();
-          if (
-            bulletbound.left >= rockbound.left &&
-            bulletbound.right <= rockbound.right &&
-            bulletbound.top <= rockbound.top &&
-            bulletbound.bottom <= rockbound.bottom
-          ) {
-            rock.parentElement.removeChild(rock);
-            points.innerHTML = parseInt(points.innerHTML) + 1;
-          }
-        }
-      }
-      var bulletbottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
-      if (bulletbottom >= 500) {
-        clearInterval(movebullet);
-      }
-
-      bullet.style.left = left + SHIP_WIDTH / 3.2 + "px";
-      bullet.style.bottom = bulletbottom + 3 + "px";
-    });
+    shot();
   }
 });
+
+function shot() {
+  var bullet = document.createElement("div");
+  bullet.classList.add("bullets");
+  bullet.style.bottom = ship.style.bottom;
+  bullet.style.left = ship.style.left;
+  board.appendChild(bullet);
+
+  var movebullet = setInterval(() => {
+    var rocks = document.getElementsByClassName("rocks");
+
+    for (var i = 0; i < rocks.length; i++) {
+      var rock = rocks[i];
+      if (rock != undefined) {
+        var rockbound = rock.getBoundingClientRect();
+        var bulletbound = bullet.getBoundingClientRect();
+        if (
+          bulletbound.left >= rockbound.left &&
+          bulletbound.right <= rockbound.right &&
+          bulletbound.top <= rockbound.top &&
+          bulletbound.bottom <= rockbound.bottom
+        ) {
+          rock.parentElement.removeChild(rock);
+          points.innerHTML = parseInt(points.innerHTML) + 1;
+        }
+      }
+    }
+    var bulletbottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
+    if (bulletbottom >= BOARD_TOP) {
+      clearInterval(movebullet);
+    }
+
+    bullet.style.left = left + SHIP_WIDTH / 3.2 + "px";
+    bullet.style.bottom = bulletbottom + 3 + "px";
+  });
+}
 
 function playPauseGame() {
   isRuning = !isRuning;
