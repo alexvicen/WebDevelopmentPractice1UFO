@@ -1,9 +1,9 @@
 var ship = document.getElementById("jet");
 var board = document.getElementById("board");
 var points = document.getElementById("points");
-var createEnemiesInterval;
-var moveEnemiesInterval;
+var createdEnemies = false;
 var isRuning = false;
+var bullet = undefined;
 
 var rect = board.getBoundingClientRect();
 
@@ -24,6 +24,10 @@ const BULLET_MOVEMENT = 3;
 const SHIP_MOVEMENT = 20;
 const ROCKET_MOVEMENT = 5;
 
+$(document).ready(function () {
+  createBoard();
+});
+
 window.addEventListener("keydown", (e) => {
   if (!isRuning) return;
   var left = parseInt(window.getComputedStyle(ship).getPropertyValue("left"));
@@ -33,19 +37,20 @@ window.addEventListener("keydown", (e) => {
     ship.style.left = left + SHIP_MOVEMENT + "px";
   }
 
-  if (e.key == "ArrowUp" || e.key == " ") {
+  if ((e.key == "ArrowUp" || e.key == " ") && bullet == undefined) {
     shot();
   }
 });
 
 function shot() {
-  var bullet = document.createElement("div");
+  bullet = document.createElement("div");
   bullet.classList.add("bullets");
-  bullet.style.bottom = ship.style.bottom;
   bullet.style.left = ship.style.left;
   board.appendChild(bullet);
 
+  var maxBottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom")) + (BOARD_HEIGHT - 100);
   var movebullet = setInterval(() => {
+    if (!isRuning) return;
     var rocks = document.getElementsByClassName("rocks");
 
     for (var i = 0; i < rocks.length; i++) {
@@ -64,20 +69,19 @@ function shot() {
         }
       }
     }
-    var bulletbottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
-    if (bulletbottom >= BOARD_TOP) {
+    var bulletBottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
+    if (bulletBottom >= maxBottom) {
       clearInterval(movebullet);
+      $(".bullets").remove();
+      bullet = undefined;
     }
-
-    bullet.style.left = left + SHIP_WIDTH / 3.2 + "px";
-    bullet.style.bottom = bulletbottom + 3 + "px";
+    bullet.style.bottom = bulletBottom + 3 + "px";
   });
 }
 
 function playPauseGame() {
   isRuning = !isRuning;
   changePlayPauseText();
-  if (createEnemiesInterval == undefined && moveEnemiesInterval == undefined) createBoard();
 }
 
 function changePlayPauseText() {
@@ -87,32 +91,16 @@ function changePlayPauseText() {
 }
 
 function createBoard() {
-  createEnemiesInterval = setInterval(() => {
-    if (!isRuning) return;
-    var rock = document.createElement("div");
-    rock.classList.add("rocks");
-    rock.style.left = Math.floor(Math.random() * (BOARD_WIDTH - ENEMY_WIDTH)) + "px";
-    board.appendChild(rock);
-  }, 1000);
+  createdEnemies = true;
+  for (var i = 0; i < 5; i++) {
+    generateEnemy();
+  }
+}
 
-  moveEnemiesInterval = setInterval(() => {
-    if (!isRuning) return;
-    var rocks = document.getElementsByClassName("rocks");
-    if (rocks != undefined) {
-      for (var i = 0; i < rocks.length; i++) {
-        var rock = rocks[i];
-        var rocktop = parseInt(window.getComputedStyle(rock).getPropertyValue("top"));
-        if (rocktop >= BOARD_HEIGHT - ENEMY_HEIGHT + 25) {
-          alert("Game Over");
-          clearInterval(moveEnemiesInterval);
-          window.location.reload();
-          createEnemiesInterval = undefined;
-          moveEnemiesInterval = undefined;
-          isRuning = false;
-        }
-
-        rock.style.top = rocktop + ROCKET_MOVEMENT + "px";
-      }
-    }
-  }, 100);
+function generateEnemy() {
+  var rock = document.createElement("div");
+  rock.classList.add("rocks");
+  var maxLeft = BOARD_RIGHT - BOARD_LEFT - ENEMY_WIDTH - 5;
+  rock.style.left = Math.floor(Math.random() * maxLeft) + "px";
+  board.appendChild(rock);
 }

@@ -29,17 +29,19 @@ body {
   position: relative;
   width: 30px;
   height: 30px;
-  bottom: -90%;
+  left: 46.5%;
+  bottom: -75%;
   background: url("../assets/images/bullet.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
 
 .rocks {
-  position: absolute;
-  top: 0px;
+  position: relative;
   width: 65px;
   height: 65px;
+  left: 46.5%;
+  bottom: 0%;
   background: url("../assets/images/alien.png");
   background-size: contain;
   background-repeat: no-repeat;
