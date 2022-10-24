@@ -26,18 +26,18 @@ body {
 }
 
 .bullets {
-  position: relative;
+  position: absolute;
   width: 30px;
   height: 30px;
   left: 46.5%;
-  bottom: -75%;
+  bottom: 0%;
   background: url("../assets/images/bullet.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-.rocks {
-  position: relative;
+.enemies {
+  position: absolute;
   width: 65px;
   height: 65px;
   left: 46.5%;
@@ -47,12 +47,13 @@ body {
   background-repeat: no-repeat;
 }
 .playButton {
+  width: 100%;
   position: center;
   padding: 0 70px;
   text-align: center;
-  font-size: 3em;
+  font-size: 2em;
 }
 .points {
   float: center;
-  font-size: 5em;
+  font-size: 3em;
 }

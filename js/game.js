@@ -5,12 +5,15 @@ var createdEnemies = false;
 var isRuning = false;
 var bullet = undefined;
 
-var rect = board.getBoundingClientRect();
+var rectBoard = board.getBoundingClientRect();
+var rectShip = ship.getBoundingClientRect();
 
-const BOARD_LEFT = rect.left;
-const BOARD_RIGHT = rect.right;
-const BOARD_TOP = rect.top;
-const BOARD_BOTTOM = rect.bottom;
+const BOARD_LEFT = rectBoard.left;
+const BOARD_RIGHT = rectBoard.right;
+const BOARD_TOP = rectBoard.top;
+const BOARD_BOTTOM = rectBoard.bottom;
+
+const SHIP_BOTTOM = rectShip.bottom;
 
 const BOARD_WIDTH = BOARD_RIGHT - BOARD_LEFT;
 const BOARD_HEIGHT = BOARD_BOTTOM - BOARD_TOP;
@@ -45,32 +48,37 @@ window.addEventListener("keydown", (e) => {
 function shot() {
   bullet = document.createElement("div");
   bullet.classList.add("bullets");
-  bullet.style.left = ship.style.left;
+  bullet.style.left = ship.getBoundingClientRect().left + SHIP_WIDTH / 3 + "px";
+  bullet.style.bottom = ship.getBoundingClientRect().bottom - BOARD_HEIGHT + SHIP_HEIGHT - 30 + "px";
   board.appendChild(bullet);
 
   var maxBottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom")) + (BOARD_HEIGHT - 100);
   var movebullet = setInterval(() => {
     if (!isRuning) return;
-    var rocks = document.getElementsByClassName("rocks");
+    var enemies = document.getElementsByClassName("enemies");
 
-    for (var i = 0; i < rocks.length; i++) {
-      var rock = rocks[i];
-      if (rock != undefined) {
-        var rockbound = rock.getBoundingClientRect();
-        var bulletbound = bullet.getBoundingClientRect();
+    for (var i = 0; i < enemies.length; i++) {
+      var enemy = enemies[i];
+      if (enemy != undefined) {
+        var enemyBound = enemy.getBoundingClientRect();
+        var bulletBound = bullet.getBoundingClientRect();
         if (
-          bulletbound.left >= rockbound.left &&
-          bulletbound.right <= rockbound.right &&
-          bulletbound.top <= rockbound.top &&
-          bulletbound.bottom <= rockbound.bottom
+          ((bulletBound.left >= enemyBound.left && bulletBound.left <= enemyBound.right) ||
+            (bulletBound.right >= enemyBound.left && bulletBound.right <= enemyBound.right)) &&
+          bulletBound.top <= enemyBound.top &&
+          bulletBound.bottom <= enemyBound.bottom
         ) {
-          rock.parentElement.removeChild(rock);
-          points.innerHTML = parseInt(points.innerHTML) + 1;
+          addScore();
+          enemy.parentElement.removeChild(enemy);
+          clearInterval(movebullet);
+          $(".bullets").remove();
+          bullet = undefined;
         }
       }
     }
     var bulletBottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
     if (bulletBottom >= maxBottom) {
+      substractScore();
       clearInterval(movebullet);
       $(".bullets").remove();
       bullet = undefined;
@@ -79,8 +87,16 @@ function shot() {
   });
 }
 
+function addScore() {
+  points.innerHTML = parseInt(points.innerHTML) + 100;
+}
+function substractScore() {
+  points.innerHTML = parseInt(points.innerHTML) - 25;
+}
+
 function playPauseGame() {
   isRuning = !isRuning;
+  board.focus();
   changePlayPauseText();
 }
 
@@ -99,8 +115,13 @@ function createBoard() {
 
 function generateEnemy() {
   var rock = document.createElement("div");
-  rock.classList.add("rocks");
-  var maxLeft = BOARD_RIGHT - BOARD_LEFT - ENEMY_WIDTH - 5;
-  rock.style.left = Math.floor(Math.random() * maxLeft) + "px";
+  rock.classList.add("enemies");
+  var maxLeft = BOARD_LEFT + 5;
+  var maxRigh = BOARD_RIGHT - ENEMY_WIDTH - 5;
+  var maxTop = BOARD_BOTTOM - BOARD_TOP + ENEMY_HEIGHT + 5;
+  var maxBottom = (BOARD_BOTTOM - BOARD_TOP) / 2 + ENEMY_HEIGHT + 5;
+
+  rock.style.left = maxRigh + "px";
+  rock.style.bottom = maxBottom + "px";
   board.appendChild(rock);
 }
