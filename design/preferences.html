@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Alejandro Vicente Pérez" />
+    <title>U.F.O Login</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/neon.css" rel="stylesheet" />
+    <link href="../css/preferences.css" rel="stylesheet" />
+    <link href="../css/header.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="headerP"></div>
+    <main class="form-signin w-100 m-auto" id="registerForm">
+      <h1 class="h3 mb-3 fw-normal neon_text">Game Preferences</h1>
+      <div class="neon_text">Number of UFOs</div>
+      <div class="neon_text">
+        <select id="numUfos" class="form-select form-select-lg mb-3">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="neon_text">Game Time (seconds)</div>
+      <div class="neon_text">
+        <select id="gameTime" class="form-select form-select-lg mb-3">
+          <option selected value="60">60</option>
+          <option value="120">120</option>
+          <option value="180">180</option>
+        </select>
+      </div>
+      <button class="w-100 btn neon_filled" type="button" onclick="savePreferences()">Accept</button>
+    </main>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/header.js" defer></script>
+    <script src="../js/preferences.js" defer></script>
+  </body>
+</html>

@@ -39,7 +39,7 @@ body {
 .enemies {
   position: absolute;
   width: 65px;
-  height: 65px;
+  height: 24.59px;
   left: 46.5%;
   bottom: 0%;
   background: url("../assets/images/alien.png");

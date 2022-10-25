@@ -49,10 +49,10 @@ function shot() {
   bullet = document.createElement("div");
   bullet.classList.add("bullets");
   bullet.style.left = ship.getBoundingClientRect().left + SHIP_WIDTH / 3 + "px";
-  bullet.style.bottom = ship.getBoundingClientRect().bottom - BOARD_HEIGHT + SHIP_HEIGHT - 30 + "px";
+  bullet.style.bottom = ship.getBoundingClientRect().bottom - BOARD_HEIGHT + SHIP_HEIGHT + "px";
   board.appendChild(bullet);
 
-  var maxBottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom")) + (BOARD_HEIGHT - 100);
+  var maxBottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom")) + BOARD_HEIGHT - 80;
   var movebullet = setInterval(() => {
     if (!isRuning) return;
     var enemies = document.getElementsByClassName("enemies");
@@ -65,14 +65,14 @@ function shot() {
         if (
           ((bulletBound.left >= enemyBound.left && bulletBound.left <= enemyBound.right) ||
             (bulletBound.right >= enemyBound.left && bulletBound.right <= enemyBound.right)) &&
-          bulletBound.top <= enemyBound.top &&
-          bulletBound.bottom <= enemyBound.bottom
+          bulletBound.top < enemyBound.bottom
         ) {
           addScore();
           enemy.parentElement.removeChild(enemy);
           clearInterval(movebullet);
           $(".bullets").remove();
           bullet = undefined;
+          return;
         }
       }
     }
@@ -82,6 +82,7 @@ function shot() {
       clearInterval(movebullet);
       $(".bullets").remove();
       bullet = undefined;
+      return;
     }
     bullet.style.bottom = bulletBottom + 3 + "px";
   });
@@ -121,7 +122,7 @@ function generateEnemy() {
   var maxTop = BOARD_BOTTOM - BOARD_TOP + ENEMY_HEIGHT + 5;
   var maxBottom = (BOARD_BOTTOM - BOARD_TOP) / 2 + ENEMY_HEIGHT + 5;
 
-  rock.style.left = maxRigh + "px";
-  rock.style.bottom = maxBottom + "px";
+  rock.style.left = Math.floor(Math.random() * (maxRigh - maxLeft + 1)) + maxLeft + "px";
+  rock.style.bottom = Math.floor(Math.random() * (maxTop - maxBottom + 1)) + maxBottom + "px";
   board.appendChild(rock);
 }

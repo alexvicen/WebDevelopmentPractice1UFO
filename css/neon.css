@@ -1,7 +1,7 @@
 :root {
   --clr-neon: rgb(152, 246, 255);
   --clr-neon_error: rgb(255, 95, 95);
-  --clr-bg: hsl(323 21% 16%);
+  --clr-bg: rgb(1, 0, 51);
 }
 
 .container_neon_border {
@@ -26,11 +26,11 @@
 
 .neon_border:hover {
   background-color: var(--clr-neon);
-  color: rgb(1, 0, 51);
+  color: var(--clr-bg);
 }
 
 .neon_filled {
-  color: rgb(1, 0, 51);
+  color: var(--clr-bg);
   border: var(--clr-neon) 3px solid;
   background-color: var(--clr-neon);
   border-radius: 0.25em;
