@@ -49,6 +49,11 @@
   text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
   transition: all 0.5s;
 }
+.neon_text_no_hover {
+  color: var(--clr-neon);
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+  transition: all 0.5s;
+}
 
 .neon_text_error {
   color: var(--clr-neon_error);

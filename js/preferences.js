@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  var ufoPreference = localStorage["ufoPreference"] || undefined;
-  var timePreference = localStorage["timePreference"] || undefined;
+  var ufoPreference = localStorage["ufoPreference"] || 1;
+  var timePreference = localStorage["timePreference"] || 60;
   if (ufoPreference != undefined) $("#numUfos").val(ufoPreference);
   if (timePreference != undefined) $("#gameTime").val(timePreference);
 });

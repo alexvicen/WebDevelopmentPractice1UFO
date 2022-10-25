@@ -6,6 +6,8 @@
     <meta name="author" content="Alejandro Vicente Pérez" />
     <title>U.F.O Game</title>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/neon.css" rel="stylesheet" />
     <link href="../css/game.css" rel="stylesheet" />
@@ -13,12 +15,18 @@
   </head>
   <body>
     <div id="headerP"></div>
+    <div id="dialog" title="Prueba"></div>
     <div class="row">
       <div class="col-3">
         <a id="playButton" onclick="playPauseGame()" class="playButton btn neon_border">
           <div id="playText">Play</div>
-          <div id="points" class="points">0</div>
+          <div id="time" class="points">0</div>
         </a>
+        <p></p>
+        <div class="playButton container_neon_border">
+          <div class="neon_text_no_hover text-center">Score</div>
+          <div id="points" class="neon_text points">0</div>
+        </div>
       </div>
       <div class="col-8">
         <div id="board">

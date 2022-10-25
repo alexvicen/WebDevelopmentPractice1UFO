@@ -1,9 +1,11 @@
 var ship = document.getElementById("jet");
 var board = document.getElementById("board");
+var time = document.getElementById("time");
 var points = document.getElementById("points");
-var createdEnemies = false;
 var isRuning = false;
 var bullet = undefined;
+var gameInterval;
+var score = 0;
 
 var rectBoard = board.getBoundingClientRect();
 var rectShip = ship.getBoundingClientRect();
@@ -26,6 +28,11 @@ const ENEMY_HEIGHT = 65;
 const BULLET_MOVEMENT = 3;
 const SHIP_MOVEMENT = 20;
 const ROCKET_MOVEMENT = 5;
+
+var ufoPreference = localStorage["ufoPreference"] || 1;
+var timePreference = localStorage["timePreference"] || 5;
+
+time.innerHTML = timePreference;
 
 $(document).ready(function () {
   createBoard();
@@ -69,6 +76,7 @@ function shot() {
         ) {
           addScore();
           enemy.parentElement.removeChild(enemy);
+          if (enemies.length < 1) createBoard();
           clearInterval(movebullet);
           $(".bullets").remove();
           bullet = undefined;
@@ -89,10 +97,12 @@ function shot() {
 }
 
 function addScore() {
-  points.innerHTML = parseInt(points.innerHTML) + 100;
+  score += 100;
+  points.innerHTML = score;
 }
 function substractScore() {
-  points.innerHTML = parseInt(points.innerHTML) - 25;
+  score -= 25;
+  points.innerHTML = score;
 }
 
 function playPauseGame() {
@@ -105,11 +115,22 @@ function changePlayPauseText() {
   var text = document.getElementById("playText");
   if (isRuning) text.innerHTML = "Pause";
   else text.innerHTML = "Play";
+
+  if (gameInterval != undefined) return;
+  var interval = timePreference * 1000;
+  gameInterval = setInterval(() => {
+    if (!isRuning) return;
+    interval -= 1000;
+    time.innerHTML = interval / 1000;
+    if (interval <= 0) {
+      clearInterval(gameInterval);
+      showErrorDialog();
+    }
+  }, 1000);
 }
 
 function createBoard() {
-  createdEnemies = true;
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < ufoPreference; i++) {
     generateEnemy();
   }
 }
@@ -125,4 +146,56 @@ function generateEnemy() {
   rock.style.left = Math.floor(Math.random() * (maxRigh - maxLeft + 1)) + maxLeft + "px";
   rock.style.bottom = Math.floor(Math.random() * (maxTop - maxBottom + 1)) + maxBottom + "px";
   board.appendChild(rock);
+}
+
+function showErrorDialog(divTarget, tarjetInput, messageText) {
+  if (divTarget != undefined) {
+    $(divTarget).removeClass("neon_text");
+    $(divTarget).addClass("neon_text_error");
+  }
+
+  $("#dialog").addClass("ui-dialog-titlebar");
+  $("#dialog").addClass("ui-widget-header");
+  $("#dialog").addClass("ui-corner-all");
+  $("#dialog").addClass("ui-helper-clearfix");
+  $("#dialog").addClass("container_neon_border");
+  $("#dialog").addClass("neon_text");
+  $("#dialog").append('<p class="neon_text text-center" id="message">' + messageText + "</p>");
+  $("#dialog")
+    .dialog({
+      title: "Error",
+      modal: true,
+      position: {
+        my: "center",
+        at: "center",
+        of: $("#board"),
+      },
+
+      buttons: [
+        {
+          text: "Play again",
+          class: "green",
+          click: function () {
+            location.reload();
+            $(this).dialog("close");
+          },
+        },
+        {
+          text: "Save result",
+          class: "red",
+          click: function () {
+            $(this).dialog("close");
+          },
+        },
+      ],
+    })
+    .prev(".ui-dialog-titlebar")
+    .css("background", "rgb(152, 246, 255)");
+
+  $("#dialog").on("dialogclose", function (event) {
+    $("#message").remove();
+    if (tarjetInput != undefined) {
+      $(tarjetInput).focus();
+    }
+  });
 }

@@ -49,6 +49,7 @@ body {
 .playButton {
   width: 100%;
   position: center;
+  margin-top: 50px;
   padding: 0 70px;
   text-align: center;
   font-size: 2em;
@@ -56,4 +57,12 @@ body {
 .points {
   float: center;
   font-size: 3em;
+}
+.ui-dialog {
+  background: transparent;
+  background-image: transparent;
+}
+.ui-button {
+  background: transparent;
+  background-image: transparent;
 }

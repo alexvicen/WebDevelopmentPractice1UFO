@@ -19,5 +19,7 @@ $(document).ready(function () {
 
 function logOutUser() {
   window.localStorage.removeItem("authorization");
+  window.localStorage.removeItem("ufoPreference");
+  window.localStorage.removeItem("timePreference");
   window.location.reload();
 }
