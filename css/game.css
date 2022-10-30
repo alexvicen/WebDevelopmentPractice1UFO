@@ -60,8 +60,18 @@ body {
 }
 .ui-dialog {
   background: transparent;
-  background-image: transparent;
+  background-image: url("../assets/images/space.jpg");
 }
+
+.ui-dialog .ui-dialog-buttonpane {
+  text-align: left;
+  border-width: 0 0 0 0;
+  background-image: none;
+  margin-top: 0.5em;
+  padding: 0.3em 1em 0.5em 0.4em;
+  background-color: transparent;
+}
+
 .ui-button {
   background: transparent;
   background-image: transparent;

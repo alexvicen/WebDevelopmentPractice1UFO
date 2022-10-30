@@ -18,6 +18,7 @@ function loginUser() {
         break;
       case 200:
         localStorage["authorization"] = http_request.getResponseHeader("Authorization");
+        localStorage["userName"] = $("#userName").val();
         history.back();
         break;
       default:

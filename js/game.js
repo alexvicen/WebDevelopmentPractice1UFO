@@ -30,7 +30,9 @@ const SHIP_MOVEMENT = 20;
 const ROCKET_MOVEMENT = 5;
 
 var ufoPreference = localStorage["ufoPreference"] || 1;
-var timePreference = localStorage["timePreference"] || 5;
+var timePreference = localStorage["timePreference"] || 60;
+var userName = localStorage["userName"] || undefined;
+var authorization = localStorage["authorization"] || undefined;
 
 time.innerHTML = timePreference;
 
@@ -124,6 +126,7 @@ function changePlayPauseText() {
     time.innerHTML = interval / 1000;
     if (interval <= 0) {
       clearInterval(gameInterval);
+      isRuning = false;
       showErrorDialog();
     }
   }, 1000);
@@ -148,23 +151,42 @@ function generateEnemy() {
   board.appendChild(rock);
 }
 
-function showErrorDialog(divTarget, tarjetInput, messageText) {
-  if (divTarget != undefined) {
-    $(divTarget).removeClass("neon_text");
-    $(divTarget).addClass("neon_text_error");
-  }
+function saveRecords() {
+  var http_request = new XMLHttpRequest();
+  var url = "http://wd.etsisi.upm.es:10000/records";
+  http_request.open("POST", url, true);
+  http_request.responseType = "json";
+  http_request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  http_request.setRequestHeader("Authorization", authorization);
+  http_request.onload = saveRecordsTreatment;
+  http_request.send("punctuation=" + score + "&ufos=" + ufoPreference + "&disposedTime=" + timePreference);
 
+  function saveRecordsTreatment() {
+    switch (http_request.status) {
+      case 201:
+        $("#dialog").dialog("close");
+        break;
+      default:
+        alert("ERROR SAVING RECORD");
+        $("#dialog").dialog("close");
+        break;
+    }
+  }
+}
+
+function showErrorDialog() {
   $("#dialog").addClass("ui-dialog-titlebar");
   $("#dialog").addClass("ui-widget-header");
   $("#dialog").addClass("ui-corner-all");
   $("#dialog").addClass("ui-helper-clearfix");
-  $("#dialog").addClass("container_neon_border");
   $("#dialog").addClass("neon_text");
-  $("#dialog").append('<p class="neon_text text-center" id="message">' + messageText + "</p>");
+  $("#dialog").append(generateDialogString());
   $("#dialog")
     .dialog({
-      title: "Error",
+      title: "Game score",
       modal: true,
+      width: 600,
+      height: 500,
       position: {
         my: "center",
         at: "center",
@@ -174,28 +196,59 @@ function showErrorDialog(divTarget, tarjetInput, messageText) {
       buttons: [
         {
           text: "Play again",
-          class: "green",
           click: function () {
-            location.reload();
             $(this).dialog("close");
           },
         },
         {
           text: "Save result",
-          class: "red",
           click: function () {
-            $(this).dialog("close");
+            saveRecords();
           },
         },
       ],
+      open: function () {
+        $(".ui-dialog-buttonpane").find('button:contains("Play again")').addClass("neon_border");
+        $(".ui-dialog-buttonpane").find('button:contains("Save result")').addClass("neon_border");
+        if (userName == undefined) {
+          $(".ui-dialog-buttonpane").find('button:contains("Save result")').remove();
+        }
+      },
     })
     .prev(".ui-dialog-titlebar")
     .css("background", "rgb(152, 246, 255)");
 
   $("#dialog").on("dialogclose", function (event) {
-    $("#message").remove();
-    if (tarjetInput != undefined) {
-      $(tarjetInput).focus();
-    }
+    location.reload();
   });
+}
+
+function generateDialogString() {
+  if (userName == undefined) {
+    return (
+      '</p><div class="container text-center container_neon_border"><div class="row justify-content-md-center" id="records_table"><table><tr class="tr"><th class="th">punctuation</th><th class="th">ufos</th><th class="th">disposedTime</th><th class="th">recordDate</th></tr><tr class="tr"><td>' +
+      score +
+      "</td><td>" +
+      ufoPreference +
+      "</td><td>" +
+      timePreference +
+      "</td><td>" +
+      new Date().toLocaleDateString("es-ES") +
+      "</td></tr></table></div></div>"
+    );
+  } else {
+    return (
+      '</p><div class="container text-center container_neon_border"><div class="row justify-content-md-center" id="records_table"><table><tr class="tr"><th class="th">username</th><th class="th">punctuation</th><th class="th">ufos</th><th class="th">disposedTime</th><th class="th">recordDate</th></tr><tr class="tr"><td>' +
+      userName +
+      "</td><td>" +
+      score +
+      "</td><td>" +
+      ufoPreference +
+      "</td><td>" +
+      timePreference +
+      "</td><td>" +
+      new Date().toLocaleDateString("es-ES") +
+      "</td></tr></table></div></div>"
+    );
+  }
 }
