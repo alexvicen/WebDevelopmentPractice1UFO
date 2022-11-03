@@ -174,6 +174,13 @@ function saveRecords() {
   }
 }
 
+function calculateFinalScore() {
+  var minutesDivider = timePreference / 60;
+  var ufosSubstract = (ufoPreference - 1) * 50;
+  console.log("divider: " + minutesDivider + " - substract: " + ufosSubstract);
+  return score / minutesDivider - ufosSubstract;
+}
+
 function showErrorDialog() {
   $("#dialog").addClass("ui-dialog-titlebar");
   $("#dialog").addClass("ui-widget-header");
@@ -227,7 +234,7 @@ function generateDialogString() {
   if (userName == undefined) {
     return (
       '</p><div class="container text-center container_neon_border"><div class="row justify-content-md-center" id="records_table"><table><tr class="tr"><th class="th">punctuation</th><th class="th">ufos</th><th class="th">disposedTime</th><th class="th">recordDate</th></tr><tr class="tr"><td>' +
-      score +
+      calculateFinalScore() +
       "</td><td>" +
       ufoPreference +
       "</td><td>" +
@@ -241,7 +248,7 @@ function generateDialogString() {
       '</p><div class="container text-center container_neon_border"><div class="row justify-content-md-center" id="records_table"><table><tr class="tr"><th class="th">username</th><th class="th">punctuation</th><th class="th">ufos</th><th class="th">disposedTime</th><th class="th">recordDate</th></tr><tr class="tr"><td>' +
       userName +
       "</td><td>" +
-      score +
+      calculateFinalScore() +
       "</td><td>" +
       ufoPreference +
       "</td><td>" +
